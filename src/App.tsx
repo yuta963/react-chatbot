@@ -1,24 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import Header from "./components/atoms/Header";
+import Infomation from "./components/molecules/Infomation";
+import { Question } from "./components/organisms/Question";
 
 function App() {
+  const [showFirstInfomation, setShowFirstInfomation] = useState(false);
+  const [showSecondInfomation, setShowSecondInfomation] = useState(false);
+  const [showQuestion, setShowQuestion] = useState(false);
+
+  useEffect(() => {
+    const firstTimer = setTimeout(() => {
+      setShowFirstInfomation(true);
+    }, 1000);
+
+    const secondTimer = setTimeout(() => {
+      setShowSecondInfomation(true);
+    }, 2000);
+
+    const questionTimer = setTimeout(() => {
+      setShowQuestion(true);
+    }, 3000);
+
+    return () => {
+      clearTimeout(firstTimer);
+      clearTimeout(secondTimer);
+      clearTimeout(questionTimer);
+    };
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="bg-line-blue min-h-screen">
+      <Header title="司法書士法人みどり法務事務所" />
+
+      {showFirstInfomation && (
+        <Infomation
+          talk="司法書士法人みどり法務事務所にお問い合わせいただきまして、ありがとうございます。"
+          officeName="司法書士法人みどり法務事務所"
+        />
+      )}
+
+      {showSecondInfomation && (
+        <Infomation
+          talk="返済状況を教えてください"
+          officeName="司法書士法人みどり法務事務所"
+        />
+      )}
+
+      {showQuestion && <Question />}
     </div>
   );
 }
